@@ -3,6 +3,7 @@ package android.fun.musiq;
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
@@ -10,6 +11,13 @@ import android.widget.Toast;
 import com.spotify.sdk.android.authentication.AuthenticationClient;
 import com.spotify.sdk.android.authentication.AuthenticationRequest;
 import com.spotify.sdk.android.authentication.AuthenticationResponse;
+
+import kaaes.spotify.webapi.android.SpotifyApi;
+import kaaes.spotify.webapi.android.SpotifyService;
+import kaaes.spotify.webapi.android.models.UserPrivate;
+import retrofit.Callback;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
 
 
 public class MainActivity extends ActionBarActivity {
@@ -61,10 +69,23 @@ public class MainActivity extends ActionBarActivity {
 
             switch(response.getType()) {
                 case TOKEN:
-                    Toast loggedIn = Toast.makeText(getApplicationContext(),
-                            "You have successfully logged in", Toast.LENGTH_SHORT);
-                    loggedIn.show();
+                    String accessToken = response.getAccessToken();
 
+                    SpotifyApi spotifyApi = new SpotifyApi();
+                    spotifyApi.setAccessToken(accessToken);
+                    SpotifyService service = spotifyApi.getService();
+
+                    service.getMe(new Callback<UserPrivate>() {
+                        @Override
+                        public void success(UserPrivate user, Response response) {
+                            Log.d("Album success", user.id);
+                        }
+
+                        @Override
+                        public void failure(RetrofitError error) {
+                            Log.d("Album failure", error.toString());
+                        }
+                    });
                     break;
 
                 case ERROR:
@@ -78,4 +99,6 @@ public class MainActivity extends ActionBarActivity {
             }
         }
     }
+
+
 }
