@@ -34,6 +34,7 @@ public class MainActivity extends ActionBarActivity {
     private static final int REQUEST_CODE = 1337;
     private static final String REDIRECT_URI = "add-that-song://callback";
     private final SpotifyApi spotifyApi = new SpotifyApi();
+
     private final SpotifyService service = spotifyApi.getService();
     private AtomicBoolean hasDoresoPlaylist = new AtomicBoolean(false);
     private String userId = "";
@@ -98,7 +99,8 @@ public class MainActivity extends ActionBarActivity {
             switch(response.getType()) {
                 case TOKEN:
                     String accessToken = response.getAccessToken();
-                    getCurrentUserId(accessToken);
+                    spotifyApi.setAccessToken(accessToken);
+                    getCurrentUserId();
                     break;
 
                 case ERROR:
@@ -113,8 +115,7 @@ public class MainActivity extends ActionBarActivity {
         }
     }
 
-    private void getCurrentUserId(String token) {
-        spotifyApi.setAccessToken(token);
+    private void getCurrentUserId() {
         service.getMe(new Callback<UserPrivate>() {
             @Override
             public void success(UserPrivate user, Response response) {
@@ -129,12 +130,11 @@ public class MainActivity extends ActionBarActivity {
         });
     }
 
-    private void createPlaylist(String userId, String token) {
+    private void createPlaylist(String userId) {
 
     }
 
-    private void checkForPlaylist(String userId, String token) {
-        spotifyApi.setAccessToken(token);
+    private void checkForPlaylist(String userId) {
         service.getPlaylists(userId, new Callback<Pager<PlaylistSimple>>() {
             @Override
             public void success(Pager<PlaylistSimple> playlistSimplePager, Response response) {
@@ -152,6 +152,4 @@ public class MainActivity extends ActionBarActivity {
             }
         });
     }
-
-
 }
