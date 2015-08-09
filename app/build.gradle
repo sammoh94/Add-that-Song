@@ -19,7 +19,14 @@ android {
     }
 }
 
+repositories {
+    flatDir {
+        dirs 'libs'
+    }
+}
+
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile 'com.spotify.sdk:spotify-auth:1.0.0-beta10@aar'
     compile 'com.android.support:appcompat-v7:22.2.0'
 }
