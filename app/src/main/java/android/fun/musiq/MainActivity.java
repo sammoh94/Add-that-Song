@@ -24,6 +24,7 @@ public class MainActivity extends ActionBarActivity {
     private static final String CLIENT_ID = "55b994fa86d84e5d8847d58f1b3b1707";
     private static final int REQUEST_CODE = 1337;
     private static final String REDIRECT_URI = "add-that-song://callback";
+    private final SpotifyApi spotifyApi = new SpotifyApi();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,22 +71,7 @@ public class MainActivity extends ActionBarActivity {
             switch(response.getType()) {
                 case TOKEN:
                     String accessToken = response.getAccessToken();
-
-                    SpotifyApi spotifyApi = new SpotifyApi();
-                    spotifyApi.setAccessToken(accessToken);
-                    SpotifyService service = spotifyApi.getService();
-
-                    service.getMe(new Callback<UserPrivate>() {
-                        @Override
-                        public void success(UserPrivate user, Response response) {
-                            Log.d("Album success", user.id);
-                        }
-
-                        @Override
-                        public void failure(RetrofitError error) {
-                            Log.d("Album failure", error.toString());
-                        }
-                    });
+                    getCurrentUserId(accessToken);
                     break;
 
                 case ERROR:
@@ -100,5 +86,19 @@ public class MainActivity extends ActionBarActivity {
         }
     }
 
+    private void getCurrentUserId(String token) {
+        spotifyApi.setAccessToken(token);
+        SpotifyService service = spotifyApi.getService();
+        service.getMe(new Callback<UserPrivate>() {
+            @Override
+            public void success(UserPrivate user, Response response) {
+                Log.d("Album success", user.id);
+            }
 
+            @Override
+            public void failure(RetrofitError error) {
+                Log.d("Album failure", error.toString());
+            }
+        });
+    }
 }
