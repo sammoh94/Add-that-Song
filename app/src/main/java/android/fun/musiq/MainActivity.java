@@ -6,14 +6,21 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
 import com.spotify.sdk.android.authentication.AuthenticationClient;
 import com.spotify.sdk.android.authentication.AuthenticationRequest;
 import com.spotify.sdk.android.authentication.AuthenticationResponse;
 
+import java.util.List;
+import java.util.concurrent.atomic.AtomicBoolean;
+
 import kaaes.spotify.webapi.android.SpotifyApi;
 import kaaes.spotify.webapi.android.SpotifyService;
+import kaaes.spotify.webapi.android.models.Pager;
+import kaaes.spotify.webapi.android.models.PlaylistSimple;
 import kaaes.spotify.webapi.android.models.UserPrivate;
 import retrofit.Callback;
 import retrofit.RetrofitError;
@@ -21,10 +28,15 @@ import retrofit.client.Response;
 
 
 public class MainActivity extends ActionBarActivity {
+    Button logoutBtn;
+    Button loginBtn;
     private static final String CLIENT_ID = "55b994fa86d84e5d8847d58f1b3b1707";
     private static final int REQUEST_CODE = 1337;
     private static final String REDIRECT_URI = "add-that-song://callback";
     private final SpotifyApi spotifyApi = new SpotifyApi();
+    private final SpotifyService service = spotifyApi.getService();
+    private AtomicBoolean hasDoresoPlaylist = new AtomicBoolean(false);
+    private String userId = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,9 +46,24 @@ public class MainActivity extends ActionBarActivity {
                 new AuthenticationRequest.Builder(CLIENT_ID, AuthenticationResponse.Type.TOKEN, REDIRECT_URI);
 
         builder.setScopes(new String[]{"user-read-private"});
-        AuthenticationRequest request = builder.build();
+        final AuthenticationRequest request = builder.build();
 
-        AuthenticationClient.openLoginActivity(this, REQUEST_CODE, request);
+        loginBtn = (Button) findViewById(R.id.loginBtn);
+        loginBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AuthenticationClient.openLoginActivity(MainActivity.this, REQUEST_CODE, request);
+            }
+        });
+
+        logoutBtn = (Button) findViewById(R.id.logoutBtn);
+        logoutBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AuthenticationClient.logout(getApplicationContext());
+            }
+        });
+
     }
 
     @Override
@@ -88,11 +115,11 @@ public class MainActivity extends ActionBarActivity {
 
     private void getCurrentUserId(String token) {
         spotifyApi.setAccessToken(token);
-        SpotifyService service = spotifyApi.getService();
         service.getMe(new Callback<UserPrivate>() {
             @Override
             public void success(UserPrivate user, Response response) {
-                Log.d("Album success", user.id);
+                userId = user.id;
+                Log.d("User id is: ", userId);
             }
 
             @Override
@@ -101,4 +128,30 @@ public class MainActivity extends ActionBarActivity {
             }
         });
     }
+
+    private void createPlaylist(String userId, String token) {
+
+    }
+
+    private void checkForPlaylist(String userId, String token) {
+        spotifyApi.setAccessToken(token);
+        service.getPlaylists(userId, new Callback<Pager<PlaylistSimple>>() {
+            @Override
+            public void success(Pager<PlaylistSimple> playlistSimplePager, Response response) {
+                List<PlaylistSimple> playlists = playlistSimplePager.items;
+                for (PlaylistSimple playlist: playlists) {
+                    if (playlist.name == "Doreso songs") {
+                        hasDoresoPlaylist.set(true);
+                    }
+                }
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                Log.d("Couldn't get playlists", error.toString());
+            }
+        });
+    }
+
+
 }
