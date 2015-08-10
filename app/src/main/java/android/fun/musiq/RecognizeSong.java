@@ -21,10 +21,8 @@ import org.json.JSONObject;
 
 import java.io.File;
 
-
 public class RecognizeSong extends ActionBarActivity implements IACRCloudListener {
     private ACRCloudClient mClient;
-
     private TextView mVolume, mResult, tv_time;
 
     private boolean mProcessing = false;
@@ -132,13 +130,22 @@ public class RecognizeSong extends ActionBarActivity implements IACRCloudListene
     @Override
     public void onResult(String result) {
         try {
+            String trackId;
+            // Find a smarter way to do this. Super dumb right now
             JSONObject parsedResult = new JSONObject(result);
             JSONObject status = parsedResult.getJSONObject("status");
             JSONObject metadata = parsedResult.getJSONObject("metadata");
             JSONArray music = metadata.getJSONArray("music");
             JSONObject songInfo = (JSONObject) music.get(0);
+            JSONObject external_metadata = (JSONObject) songInfo.get("external_metadata");
+            JSONObject spotifyData = (JSONObject) external_metadata.get("spotify");
+            JSONObject track = (JSONObject) spotifyData.get("track");
+            trackId = track.get("id").toString();
+
             if (status.get("msg").equals("Success")) {
-                mResult.setText(songInfo.get("title").toString());
+                mResult.setText(trackId);
+                System.out.println(trackId);
+
                 mProcessing = false;
 
                 if (this.mClient != null) {
