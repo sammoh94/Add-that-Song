@@ -109,6 +109,8 @@ public class MainActivity extends ActionBarActivity {
                     String accessToken = response.getAccessToken();
                     spotifyApi.setAccessToken(accessToken);
                     getCurrentUserId();
+                    Intent i = new Intent(MainActivity.this, RecognizeSong.class);
+                    startActivity(i);
                     break;
 
                 case ERROR:
