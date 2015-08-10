@@ -6,4 +6,6 @@
     <string name="logout">Logout</string>
     <string name="login">Login</string>
     <string name="title_activity_recognize_song">RecognizeSong</string>
+    <string name="startSong">Start</string>
+    <string name="cancelSong">Cancel</string>
 </resources>
