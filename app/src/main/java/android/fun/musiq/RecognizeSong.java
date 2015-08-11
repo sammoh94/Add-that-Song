@@ -118,11 +118,11 @@ public class RecognizeSong extends ActionBarActivity implements IACRCloudListene
     }
 
     protected void cancel() {
-        //if (mProcessing) {
-        this.mClient.stop();
-        tv_time.setText("");
-        mResult.setText("");
-        //}
+        if (mProcessing) {
+            this.mClient.stop();
+            tv_time.setText("");
+            mResult.setText("");
+        }
         mProcessing = false;
     }
 

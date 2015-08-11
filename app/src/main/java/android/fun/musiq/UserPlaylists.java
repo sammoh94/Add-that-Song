@@ -5,15 +5,21 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import kaaes.spotify.webapi.android.SpotifyApi;
 import kaaes.spotify.webapi.android.SpotifyService;
 import kaaes.spotify.webapi.android.models.Pager;
 import kaaes.spotify.webapi.android.models.PlaylistSimple;
+import kaaes.spotify.webapi.android.models.PlaylistTrack;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
@@ -24,7 +30,6 @@ public class UserPlaylists extends ActionBarActivity {
     private final SpotifyService service = spotifyApi.getService();
     private String currentUserId = "";
     private String songUri = "";
-    private String accessToken;
     private final ArrayList<PlaylistSimple> userPlaylists = new ArrayList<>();
     private PlaylistAdapter playlistAdapter;
 
@@ -34,14 +39,22 @@ public class UserPlaylists extends ActionBarActivity {
         setContentView(R.layout.activity_user_playlists);
         songUri = getIntent().getStringExtra("Song URI");
         currentUserId = getIntent().getStringExtra("user ID");
-        accessToken = getIntent().getStringExtra("access token");
+        String accessToken = getIntent().getStringExtra("access token");
         spotifyApi.setAccessToken(accessToken);
 
         ListView playlistView = (ListView) findViewById(R.id.playlistView);
         playlistAdapter = new PlaylistAdapter(this, userPlaylists);
         playlistView.setAdapter(playlistAdapter);
         getUserPlaylists();
-        System.out.println(songUri + "........" + currentUserId);
+
+        playlistView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                PlaylistSimple selectedPlaylist = playlistAdapter.getItem(position);
+                String playlistId = selectedPlaylist.id;
+                addSongToPlaylist(currentUserId, playlistId, songUri);
+            }
+        });
      }
 
     @Override
@@ -64,6 +77,27 @@ public class UserPlaylists extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void addSongToPlaylist(String userId, String playlistId, String trackUri) {
+        Map<String, Object> uriMap = new HashMap<>();
+        ArrayList<String> uriList = new ArrayList<>();
+        uriList.add(trackUri);
+        uriMap.put("uris", uriList);
+        service.addTracksToPlaylist(userId, playlistId, uriMap, new HashMap<String, Object>(), new Callback<Pager<PlaylistTrack>>() {
+            @Override
+            public void success(Pager<PlaylistTrack> playlistTrackPager, Response response) {
+                Toast.makeText(UserPlaylists.this, "Song successfully added", Toast.LENGTH_SHORT)
+                        .show();
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                Toast.makeText(UserPlaylists.this, "Could not add song", Toast.LENGTH_SHORT)
+                        .show();
+                Log.d("error: ", error.toString());
+            }
+        });
     }
 
     private void getUserPlaylists() {

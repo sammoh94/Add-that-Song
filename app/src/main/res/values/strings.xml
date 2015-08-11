@@ -9,4 +9,5 @@
     <string name="startSong">Start</string>
     <string name="cancelSong">Cancel</string>
     <string name="title_activity_user_playlists">UserPlaylists</string>
+    <string name="playlistNAME">Playlist Name</string>
 </resources>

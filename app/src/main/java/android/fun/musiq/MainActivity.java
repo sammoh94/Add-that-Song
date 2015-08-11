@@ -37,7 +37,7 @@ public class MainActivity extends ActionBarActivity {
     private final SpotifyService service = spotifyApi.getService();
     private AtomicBoolean hasDoresoPlaylist = new AtomicBoolean(false);
     private String currentUserId = "";
-    private String accessToken;
+    private static String accessToken;
     Button logoutBtn;
     Button loginBtn;
 
@@ -49,10 +49,7 @@ public class MainActivity extends ActionBarActivity {
                 new AuthenticationRequest.Builder(CLIENT_ID, AuthenticationResponse.Type.TOKEN, REDIRECT_URI);
 
         builder.setScopes(new String[]{
-                "user-read-private",
-                "playlist-modify-public",
-                "playlist-read-private",
-                "playlist-read-collaborative"
+            "playlist-modify-public"
         });
 
         final AuthenticationRequest request = builder.build();
@@ -112,9 +109,9 @@ public class MainActivity extends ActionBarActivity {
                     break;
 
                 case ERROR:
-                    Toast error = Toast.makeText(getApplicationContext(),
-                            "Please verify your login credentials", Toast.LENGTH_SHORT);
-                    error.show();
+                    Toast.makeText(getApplicationContext(),
+                            "Please verify your login credentials", Toast.LENGTH_SHORT)
+                            .show();
                     break;
 
                 default:
@@ -128,7 +125,6 @@ public class MainActivity extends ActionBarActivity {
             @Override
             public void success(UserPrivate user, Response response) {
                 currentUserId = user.id;
-                Log.d("User id is: ", currentUserId);
                 Intent i = new Intent(MainActivity.this, RecognizeSong.class);
                 i.putExtra("user ID", currentUserId);
                 i.putExtra("access token", accessToken);
@@ -145,7 +141,7 @@ public class MainActivity extends ActionBarActivity {
 
     private void createPlaylist(String userId) {
         Map<String, Object> playlistObj = new HashMap<>();
-        playlistObj.put("name", "Doreso songs");
+        playlistObj.put("name", "ACRCloud songs");
         playlistObj.put("public", true);
         service.createPlaylist(userId, playlistObj, new Callback<Playlist>() {
             @Override
@@ -167,7 +163,7 @@ public class MainActivity extends ActionBarActivity {
             public void success(Pager<PlaylistSimple> playlistSimplePager, Response response) {
                 List<PlaylistSimple> playlists = playlistSimplePager.items;
                 for (PlaylistSimple playlist : playlists) {
-                    if (playlist.name.equals("Doreso songs")) {
+                    if (playlist.name.equals("ACRCloud songs")) {
                         hasDoresoPlaylist.set(true);
                         Log.d("Playlist exists", response.toString());
                         break;

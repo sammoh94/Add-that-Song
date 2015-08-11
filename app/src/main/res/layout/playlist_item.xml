@@ -4,10 +4,13 @@
     android:layout_height="match_parent"
     >
     <TextView
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/playlistName"
-        android:text="Playlist Name">
+        android:text="@string/playlistNAME"
+        android:textSize="14pt"
+        android:paddingStart="2dp"
+        android:paddingEnd="2dp">
 
     </TextView>
 </LinearLayout>
