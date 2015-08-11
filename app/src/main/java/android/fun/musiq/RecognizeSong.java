@@ -1,5 +1,6 @@
 package android.fun.musiq;
 
+import android.content.Intent;
 import android.os.Environment;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -143,8 +144,10 @@ public class RecognizeSong extends ActionBarActivity implements IACRCloudListene
             trackId = track.get("id").toString();
 
             if (status.get("msg").equals("Success")) {
-                mResult.setText(trackId);
                 System.out.println(trackId);
+                Intent playlist = new Intent(RecognizeSong.this, UserPlaylists.class);
+                playlist.putExtra("track Id", trackId);
+                startActivity(playlist);
 
                 mProcessing = false;
 

@@ -33,6 +33,10 @@
             android:name=".RecognizeSong"
             android:label="@string/title_activity_recognize_song" >
         </activity>
+        <activity
+            android:name=".UserPlaylists"
+            android:label="@string/title_activity_user_playlists" >
+        </activity>
     </application>
 
 </manifest>
