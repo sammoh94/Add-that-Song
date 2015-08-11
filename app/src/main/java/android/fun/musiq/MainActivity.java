@@ -37,6 +37,7 @@ public class MainActivity extends ActionBarActivity {
     private final SpotifyService service = spotifyApi.getService();
     private AtomicBoolean hasDoresoPlaylist = new AtomicBoolean(false);
     private String currentUserId = "";
+    private String accessToken;
     Button logoutBtn;
     Button loginBtn;
 
@@ -49,7 +50,9 @@ public class MainActivity extends ActionBarActivity {
 
         builder.setScopes(new String[]{
                 "user-read-private",
-                "playlist-modify-public"
+                "playlist-modify-public",
+                "playlist-read-private",
+                "playlist-read-collaborative"
         });
 
         final AuthenticationRequest request = builder.build();
@@ -103,11 +106,9 @@ public class MainActivity extends ActionBarActivity {
 
             switch(response.getType()) {
                 case TOKEN:
-                    String accessToken = response.getAccessToken();
+                    accessToken = response.getAccessToken();
                     spotifyApi.setAccessToken(accessToken);
                     getCurrentUserId();
-                    Intent i = new Intent(MainActivity.this, RecognizeSong.class);
-                    startActivity(i);
                     break;
 
                 case ERROR:
@@ -117,7 +118,7 @@ public class MainActivity extends ActionBarActivity {
                     break;
 
                 default:
-
+                    // do nothing
             }
         }
     }
@@ -128,7 +129,11 @@ public class MainActivity extends ActionBarActivity {
             public void success(UserPrivate user, Response response) {
                 currentUserId = user.id;
                 Log.d("User id is: ", currentUserId);
+                Intent i = new Intent(MainActivity.this, RecognizeSong.class);
+                i.putExtra("user ID", currentUserId);
+                i.putExtra("access token", accessToken);
                 checkForPlaylist(currentUserId);
+                startActivity(i);
             }
 
             @Override

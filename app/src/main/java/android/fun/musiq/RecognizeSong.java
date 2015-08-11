@@ -39,6 +39,8 @@ public class RecognizeSong extends ActionBarActivity implements IACRCloudListene
     private ACRCloudClient mClient;
     private TextView mVolume, mResult, tv_time;
     private String trackUri = "";
+    private String currentUserId = "";
+    private String accessToken = "";
 
     private boolean mProcessing = false;
     private boolean initState = false;
@@ -47,6 +49,10 @@ public class RecognizeSong extends ActionBarActivity implements IACRCloudListene
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recognize_song);
+
+        currentUserId = getIntent().getStringExtra("user ID");
+        accessToken = getIntent().getStringExtra("access token");
+        spotifyApi.setAccessToken(accessToken);
 
         String path = Environment.getExternalStorageDirectory().toString()
                 + "/acrcloud/model";
@@ -159,7 +165,6 @@ public class RecognizeSong extends ActionBarActivity implements IACRCloudListene
             trackId = track.get("id").toString();
 
             if (status.get("msg").equals("Success")) {
-                System.out.println(trackId);
                 getTrackURI(trackId);
                 mProcessing = false;
 
@@ -196,6 +201,8 @@ public class RecognizeSong extends ActionBarActivity implements IACRCloudListene
                 trackUri = track.uri;
                 Intent playlist = new Intent(RecognizeSong.this, UserPlaylists.class);
                 playlist.putExtra("Song URI", trackUri);
+                playlist.putExtra("user ID", currentUserId);
+                playlist.putExtra("access token", accessToken);
                 startActivity(playlist);
             }
 

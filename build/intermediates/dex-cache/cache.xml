@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        jar="/Users/samohan/Desktop/Android/Add-that-Song/app/build/intermediates/exploded-aar/com.android.support/support-v4/22.2.0/classes.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="1ee588ff2c4daf7b97c1cbf922a6c7f027285c2f">
+        <dex dex="/Users/samohan/Desktop/Android/Add-that-Song/app/build/intermediates/pre-dexed/debug/classes-b8ebcb6226fdf0a6fc342527ae16361b1262752a.jar" />
+    </item>
+    <item
+        jar="/Users/samohan/Desktop/Android/Add-that-Song/app/build/intermediates/exploded-aar/com.spotify.sdk/spotify-auth/1.0.0-beta10/classes.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="a2736a2c8e3bd1d508baa11851e9a77f62646d08">
+        <dex dex="/Users/samohan/Desktop/Android/Add-that-Song/app/build/intermediates/pre-dexed/debug/classes-8d669a7b2824dd88fb44a9020f3bab845f5cb7eb.jar" />
+    </item>
+    <item
+        jar="/Users/samohan/Desktop/Android/Add-that-Song/app/build/intermediates/exploded-aar/spotify-web-api-android-0.1.1/classes.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="b751cba208cc1c95734d25d89b4d0e2738cbb77d">
+        <dex dex="/Users/samohan/Desktop/Android/Add-that-Song/app/build/intermediates/pre-dexed/debug/classes-e2af3498471d6c2ae8f3d9fb9ee23962d38e8fc5.jar" />
+    </item>
+    <item
+        jar="/Users/samohan/Desktop/Android/Add-that-Song/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/22.2.0/classes.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="73753982da6bde518f3a4c6b372749981d14d1a0">
+        <dex dex="/Users/samohan/Desktop/Android/Add-that-Song/app/build/intermediates/pre-dexed/debug/classes-e2b09ba5482f77aac255cfcf167ed12ba505abe2.jar" />
+    </item>
+    <item
+        jar="/Users/samohan/.gradle/caches/modules-2/files-2.1/com.google.code.gson/gson/2.3.1/ecb6e1f8e4b0e84c4b886c2f14a1500caf309757/gson-2.3.1.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="ecb6e1f8e4b0e84c4b886c2f14a1500caf309757">
+        <dex dex="/Users/samohan/Desktop/Android/Add-that-Song/app/build/intermediates/pre-dexed/debug/gson-2.3.1-55caf6f9183cb6f68ce68bb2f97dd391a490e3be.jar" />
+    </item>
+    <item
+        jar="/Users/samohan/.gradle/caches/modules-2/files-2.1/com.squareup.retrofit/retrofit/1.9.0/a681c044244d9fc375198588297a39ba78028423/retrofit-1.9.0.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="a681c044244d9fc375198588297a39ba78028423">
+        <dex dex="/Users/samohan/Desktop/Android/Add-that-Song/app/build/intermediates/pre-dexed/debug/retrofit-1.9.0-dfbaabf8fb8bb6fdd12f51f041110ef0d56c8061.jar" />
+    </item>
+    <item
+        jar="/Users/samohan/Library/Android/sdk/extras/android/m2repository/com/android/support/support-annotations/22.2.0/support-annotations-22.2.0.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="66b42a1f3eb7676070b7ef7f14b603483aecbee1">
+        <dex dex="/Users/samohan/Desktop/Android/Add-that-Song/app/build/intermediates/pre-dexed/debug/support-annotations-22.2.0-85b8662fcb4bd2a16a28c2a278203645da03b626.jar" />
+    </item>
+    <item
+        jar="/Users/samohan/Desktop/Android/Add-that-Song/app/libs/acrcloud-android-sdk-1.1.0.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="519fb89469c0c47325185a1d78c14a67cf8159a6">
+        <dex dex="/Users/samohan/Desktop/Android/Add-that-Song/app/build/intermediates/pre-dexed/debug/acrcloud-android-sdk-1.1.0-035b3ef48be408004768d5696e04b282f21bcb50.jar" />
+    </item>
+    <item
+        jar="/Users/samohan/.gradle/caches/modules-2/files-2.1/com.squareup.okio/okio/1.2.0/c0b52915a48fa91b1b94a28d4a2997bac5f524df/okio-1.2.0.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="c0b52915a48fa91b1b94a28d4a2997bac5f524df">
+        <dex dex="/Users/samohan/Desktop/Android/Add-that-Song/app/build/intermediates/pre-dexed/debug/okio-1.2.0-30b81ac64cd3027286a1325e7f0621b48a17ed89.jar" />
+    </item>
+    <item
+        jar="/Users/samohan/Desktop/Android/Add-that-Song/app/build/intermediates/exploded-aar/com.android.support/support-v4/22.2.0/libs/internal_impl-22.2.0.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="57f2ab85c164ff1676ec64dee787981c046fab79">
+        <dex dex="/Users/samohan/Desktop/Android/Add-that-Song/app/build/intermediates/pre-dexed/debug/internal_impl-22.2.0-7c90d4254c2f712a257e7dcd9a7297b163a569ec.jar" />
+    </item>
+    <item
+        jar="/Users/samohan/.gradle/caches/modules-2/files-2.1/com.squareup.okhttp/okhttp/2.2.0/959c454243581fdf730abfd4f4745441724bcf2c/okhttp-2.2.0.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="959c454243581fdf730abfd4f4745441724bcf2c">
+        <dex dex="/Users/samohan/Desktop/Android/Add-that-Song/app/build/intermediates/pre-dexed/debug/okhttp-2.2.0-509a3a257f1d694207a1a5831e90d35bc83fe7cf.jar" />
+    </item>
+
+</items>
