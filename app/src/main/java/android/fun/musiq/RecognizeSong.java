@@ -22,9 +22,23 @@ import org.json.JSONObject;
 
 import java.io.File;
 
+import kaaes.spotify.webapi.android.SpotifyApi;
+import kaaes.spotify.webapi.android.SpotifyService;
+import kaaes.spotify.webapi.android.models.Track;
+import retrofit.Callback;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
+
+/**
+ * Powered by ACRCloud Android SDK
+ */
+
 public class RecognizeSong extends ActionBarActivity implements IACRCloudListener {
+    private final SpotifyApi spotifyApi = new SpotifyApi();
+    private final SpotifyService service = spotifyApi.getService();
     private ACRCloudClient mClient;
     private TextView mVolume, mResult, tv_time;
+    private String trackUri = "";
 
     private boolean mProcessing = false;
     private boolean initState = false;
@@ -139,16 +153,14 @@ public class RecognizeSong extends ActionBarActivity implements IACRCloudListene
             JSONArray music = metadata.getJSONArray("music");
             JSONObject songInfo = (JSONObject) music.get(0);
             JSONObject external_metadata = (JSONObject) songInfo.get("external_metadata");
+            // TODO: Handle case if song is not in Spotify's database
             JSONObject spotifyData = (JSONObject) external_metadata.get("spotify");
             JSONObject track = (JSONObject) spotifyData.get("track");
             trackId = track.get("id").toString();
 
             if (status.get("msg").equals("Success")) {
                 System.out.println(trackId);
-                Intent playlist = new Intent(RecognizeSong.this, UserPlaylists.class);
-                playlist.putExtra("track Id", trackId);
-                startActivity(playlist);
-
+                getTrackURI(trackId);
                 mProcessing = false;
 
                 if (this.mClient != null) {
@@ -175,5 +187,22 @@ public class RecognizeSong extends ActionBarActivity implements IACRCloudListene
     @Override
     public void onVolumeChanged(double volume) {
         mVolume.setText("volume: " + volume);
+    }
+
+    private void getTrackURI(String trackId) {
+        service.getTrack(trackId, new Callback<Track>() {
+            @Override
+            public void success(Track track, Response response) {
+                trackUri = track.uri;
+                Intent playlist = new Intent(RecognizeSong.this, UserPlaylists.class);
+                playlist.putExtra("Song URI", trackUri);
+                startActivity(playlist);
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                Log.d("Track not found", error.toString());
+            }
+        });
     }
 }

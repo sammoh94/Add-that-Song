@@ -13,7 +13,9 @@ public class UserPlaylists extends ActionBarActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_playlists);
-    }
+        String songUri = getIntent().getStringExtra("Song URI");
+        System.out.println(songUri);
+     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
