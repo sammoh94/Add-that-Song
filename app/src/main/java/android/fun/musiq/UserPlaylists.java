@@ -80,11 +80,10 @@ public class UserPlaylists extends ActionBarActivity {
     }
 
     private void addSongToPlaylist(String userId, String playlistId, String trackUri) {
-        Map<String, Object> uriMap = new HashMap<>();
-        ArrayList<String> uriList = new ArrayList<>();
-        uriList.add(trackUri);
-        uriMap.put("uris", uriList);
-        service.addTracksToPlaylist(userId, playlistId, uriMap, new HashMap<String, Object>(), new Callback<Pager<PlaylistTrack>>() {
+        Map<String, Object> queryParameters = new HashMap<>();
+        queryParameters.put("uris", trackUri);
+
+        service.addTracksToPlaylist(userId, playlistId, queryParameters, new HashMap<String, Object>(), new Callback<Pager<PlaylistTrack>>() {
             @Override
             public void success(Pager<PlaylistTrack> playlistTrackPager, Response response) {
                 Toast.makeText(UserPlaylists.this, "Song successfully added", Toast.LENGTH_SHORT)
@@ -95,7 +94,7 @@ public class UserPlaylists extends ActionBarActivity {
             public void failure(RetrofitError error) {
                 Toast.makeText(UserPlaylists.this, "Could not add song", Toast.LENGTH_SHORT)
                         .show();
-                Log.d("error: ", error.toString());
+                error.printStackTrace();
             }
         });
     }
